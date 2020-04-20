@@ -76,12 +76,12 @@
       "values": [
         {
           "type": "synonyms",
-          "value": "sim",
+          "value": "nao",
           "synonyms": []
         },
         {
           "type": "synonyms",
-          "value": "nao",
+          "value": "sim",
           "synonyms": []
         }
       ],
@@ -92,17 +92,17 @@
       "values": [
         {
           "type": "synonyms",
-          "value": "febre",
+          "value": "tosse",
           "synonyms": [
-            "temperatura alta",
-            "pirexia"
+            "peitogueira"
           ]
         },
         {
           "type": "synonyms",
-          "value": "tosse",
+          "value": "febre",
           "synonyms": [
-            "peitogueira"
+            "temperatura alta",
+            "pirexia"
           ]
         },
         {
@@ -141,6 +141,22 @@
     {
       "entity": "sys-number",
       "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "doencas_usuario",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "não possuo",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "possuo",
+          "synonyms": []
+        }
+      ],
       "fuzzy_match": true
     }
   ],
@@ -240,6 +256,51 @@
     {
       "type": "event_handler",
       "output": {
+        "generic": [
+          {
+            "title": "Você possui alguma(s) dessa(s) doença(s)? ",
+            "options": [
+              {
+                "label": "Possuo",
+                "value": {
+                  "input": {
+                    "text": "possuo"
+                  }
+                }
+              },
+              {
+                "label": "Não possuo",
+                "value": {
+                  "input": {
+                    "text": "nao possuo"
+                  }
+                }
+              }
+            ],
+            "description": " - Diabetes;  - Doença Respiratória Crônica (ex. asma, DPOC, etc.)  - Doença Renal Crônica;  - Doenças cardíacas;  - Hipertensão;",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "slot_9_1587266854874",
+      "event_name": "focus",
+      "dialog_node": "handler_5_1587266854878",
+      "previous_sibling": "handler_4_1587266854878"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_9_1587266854874",
+      "context": {
+        "doencas_usuario": "@doencas_usuario"
+      },
+      "conditions": "@doencas_usuario",
+      "event_name": "input",
+      "dialog_node": "handler_4_1587266854878"
+    },
+    {
+      "type": "event_handler",
+      "output": {
         "text": {
           "values": [
             "Qual a sua idade?"
@@ -262,51 +323,6 @@
       "conditions": "@sys-number",
       "event_name": "input",
       "dialog_node": "handler_1_1587266182333"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "generic": [
-          {
-            "title": "Você possui alguma(s) dessa(s) doença(s)? ",
-            "options": [
-              {
-                "label": "Sim",
-                "value": {
-                  "input": {
-                    "text": "sim"
-                  }
-                }
-              },
-              {
-                "label": "Não",
-                "value": {
-                  "input": {
-                    "text": "nao"
-                  }
-                }
-              }
-            ],
-            "description": " - Diabetes;  - Doença Respiratória Crônica (ex. asma, DPOC, etc.)  - Doença Renal Crônica;  - Doenças cardíacas;  - Hipertensão;",
-            "response_type": "option"
-          }
-        ]
-      },
-      "parent": "slot_9_1587266854874",
-      "event_name": "focus",
-      "dialog_node": "handler_5_1587266854878",
-      "previous_sibling": "handler_4_1587266854878"
-    },
-    {
-      "type": "event_handler",
-      "output": {},
-      "parent": "slot_9_1587266854874",
-      "context": {
-        "doencas_usuario": "@sim_nao"
-      },
-      "conditions": "@sim_nao",
-      "event_name": "input",
-      "dialog_node": "handler_4_1587266854878"
     },
     {
       "type": "event_handler",
@@ -461,6 +477,15 @@
       "type": "slot",
       "output": {},
       "parent": "node_6_1587231194206",
+      "variable": "$sintomas_graves",
+      "conditions": "$sintomas_tempo:sim",
+      "dialog_node": "slot_1_1587267554246",
+      "previous_sibling": "slot_9_1587266854874"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_6_1587231194206",
       "variable": "$status_saude",
       "conditions": "",
       "dialog_node": "slot_3_1587231265425",
@@ -575,15 +600,6 @@
       "variable": "$doencas_usuario",
       "dialog_node": "slot_9_1587266854874",
       "previous_sibling": "slot_4_1587266182328"
-    },
-    {
-      "type": "slot",
-      "output": {},
-      "parent": "node_6_1587231194206",
-      "variable": "$sintomas_graves",
-      "conditions": "$sintomas_tempo:sim",
-      "dialog_node": "slot_1_1587267554246",
-      "previous_sibling": "slot_9_1587266854874"
     },
     {
       "type": "slot",

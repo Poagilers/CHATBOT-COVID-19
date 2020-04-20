@@ -35,25 +35,53 @@
         }
       ],
       "description": "Intenção de analisar os sintomas"
+    },
+    {
+      "intent": "terminar_conversa",
+      "examples": [
+        {
+          "text": "ja acabei"
+        },
+        {
+          "text": "nada mais"
+        }
+      ],
+      "description": "Para acabar a conversa e mandar a última mensagem"
+    },
+    {
+      "intent": "coronavirus",
+      "examples": [
+        {
+          "text": "o que são coronavirus"
+        }
+      ],
+      "description": "Informações sobre o que são coronavírus"
+    },
+    {
+      "intent": "como_prevenir",
+      "examples": [
+        {
+          "text": "como posso me prevenir"
+        },
+        {
+          "text": "como se prevenir"
+        }
+      ],
+      "description": "Ajudar o usuário na prevenção da covid-19"
     }
   ],
   "entities": [
-    {
-      "entity": "sys-number",
-      "values": [],
-      "fuzzy_match": true
-    },
     {
       "entity": "sim_nao",
       "values": [
         {
           "type": "synonyms",
-          "value": "nao",
+          "value": "sim",
           "synonyms": []
         },
         {
           "type": "synonyms",
-          "value": "sim",
+          "value": "nao",
           "synonyms": []
         }
       ],
@@ -68,6 +96,13 @@
           "synonyms": [
             "temperatura alta",
             "pirexia"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "tosse",
+          "synonyms": [
+            "peitogueira"
           ]
         },
         {
@@ -99,15 +134,13 @@
             "o ar não vem",
             "o ar tá preso"
           ]
-        },
-        {
-          "type": "synonyms",
-          "value": "tosse",
-          "synonyms": [
-            "peitogueira"
-          ]
         }
       ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-number",
+      "values": [],
       "fuzzy_match": true
     }
   ],
@@ -119,203 +152,59 @@
   },
   "dialog_nodes": [
     {
-      "type": "event_handler",
-      "output": {
-        "generic": [
-          {
-            "title": "Você possui alguma(s) dessa(s) doença(s)? ",
-            "options": [
-              {
-                "label": "Sim",
-                "value": {
-                  "input": {
-                    "text": "sim"
-                  }
-                }
-              },
-              {
-                "label": "Não",
-                "value": {
-                  "input": {
-                    "text": "nao"
-                  }
-                }
-              }
-            ],
-            "description": " - Diabetes; - Doença Respiratória Crônica (ex. asma, DPOC, etc.) - Doença Renal Crônica; - Doenças cardíacas; - Hipertensão;",
-            "response_type": "option"
-          }
-        ]
-      },
-      "parent": "slot_9_1587266854874",
-      "event_name": "focus",
-      "dialog_node": "handler_5_1587266854878",
-      "previous_sibling": "handler_4_1587266854878"
-    },
-    {
-      "type": "event_handler",
-      "output": {},
-      "parent": "slot_9_1587266854874",
-      "context": {
-        "doencas_usuario": "@sim_nao"
-      },
-      "conditions": "@sim_nao",
-      "event_name": "input",
-      "dialog_node": "handler_4_1587266854878"
-    },
-    {
-      "type": "event_handler",
-      "output": {},
-      "parent": "slot_4_1587325471189",
-      "event_name": "focus",
-      "dialog_node": "handler_8_1587325471192",
-      "previous_sibling": "handler_3_1587325471192"
-    },
-    {
-      "type": "event_handler",
-      "parent": "slot_4_1587325471189",
-      "event_name": "input",
-      "dialog_node": "handler_3_1587325471192"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "text": {
-          "values": [
-            "Seu caso foi classificado como improvável. No entanto, as etiquetas de higiene e medidas de precaução continuam necessárias.: -Lave constantemente as mãos, cubra a boca com o cotovelo ao tossir ou espirrar, evite de tocar o rosto, mantenha a distância segura de 2 metros entre outras pessoas e evite ao máximo sair de casa."
-          ],
-          "selection_policy": "sequential"
-        }
-      },
-      "parent": "node_6_1587231194206",
-      "conditions": "$sintomas_tempo>15 || $status_saude:nao || $idade_usuario>18 && $doencas_usuario:nao && $sintomas_graves:nao",
-      "dialog_node": "response_4_1587324900877",
-      "previous_sibling": "response_2_1587319884901"
-    },
-    {
-      "type": "slot",
-      "output": {},
-      "parent": "node_6_1587231194206",
-      "variable": "$sintomas_graves",
-      "dialog_node": "slot_1_1587267554246",
-      "previous_sibling": "slot_9_1587266854874"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "text": {
-          "values": [
-            ""
-          ],
-          "selection_policy": "sequential"
-        }
-      },
-      "parent": "node_6_1587231194206",
-      "conditions": "$status_saude:nao",
-      "dialog_node": "response_8_1587325485677",
-      "previous_sibling": "response_4_1587324900877"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "text": {
-          "values": [
-            "Seu caso pode ser de uma infecção respiratória indeterminada. Pela descrição, no entanto, recomenda-se quarentena de 14 dias, com acompanhamento diário dos sintomas para verificar se não há piora.  "
-          ],
-          "selection_policy": "sequential"
-        }
-      },
-      "parent": "node_6_1587231194206",
-      "conditions": "$status_saude:sim && $sintomas_tempo < 6",
-      "dialog_node": "response_2_1587319884901",
-      "previous_sibling": "response_9_1587319466862"
-    },
-    {
-      "type": "slot",
-      "output": {},
-      "parent": "node_6_1587231194206",
-      "variable": "$status_saude",
-      "conditions": "",
-      "dialog_node": "slot_3_1587231265425",
-      "previous_sibling": "response_8_1587325485677"
-    },
-    {
       "type": "response_condition",
       "output": {
         "generic": [
           {
             "values": [
               {
-                "text": "Seu caso pode ser considerado um caso suspeito ou de risco. Entre neste link para acessar as unidades de referência mais próximas da sua residência."
+                "text": "As recomendações de prevenção à COVID-19 são as seguintes:\n\n     • Lave com frequência as mãos até a altura dos punhos, com água e sabão, ou então higienize com álcool em gel 70%.\n\n     • Ao tossir ou espirrar, cubra nariz e boca com lenço ou com o braço, e não com as mãos.\n\n     • Evite tocar olhos, nariz e boca com as mãos não lavadas.\n\n     • Ao tocar, lave sempre as mãos como já indicado.\n\n     • Mantenha uma distância mínima de cerca de 2 metros de qualquer pessoa tossindo ou espirrando.\n\n     • Evite abraços, beijos e apertos de mãos. Adote um comportamento amigável sem contato físico, mas sempre com um sorriso no rosto.\n\n     • Higienize com frequência o celular e os brinquedos das crianças.\n\n     • Não compartilhe objetos de uso pessoal, como talheres, toalhas, pratos e copos.\n\n     • Mantenha os ambientes limpos e bem ventilados.\n\n     • Evite circulação desnecessária nas ruas, estádios, teatros, shoppings, shows, cinemas e igrejas. Se puder, fique em casa.\n\n     • Se estiver doente, evite contato físico com outras pessoas, principalmente idosos e doentes crônicos, e fique em casa até melhorar.\n\n     • Durma bem e tenha uma alimentação saudável.\n\n     • Utilize máscaras caseiras ou artesanais feitas de tecido em situações de saída de sua residência. "
               }
             ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de avaliar meus sintomas",
+                "value": {
+                  "input": {
+                    "text": "avaliação da saúde"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          },
+          {
+            "values": [],
             "response_type": "text",
             "selection_policy": "sequential"
           }
         ]
       },
-      "parent": "node_6_1587231194206",
-      "conditions": "$idade_usuario>59 && $sintomas_usuario:sim && $sintomas_tempo<15",
-      "dialog_node": "response_3_1587318424484",
-      "previous_sibling": "response_4_1587319272922"
-    },
-    {
-      "type": "slot",
-      "parent": "node_6_1587231194206",
-      "variable": "$idade_usuario",
-      "dialog_node": "slot_4_1587266182328",
-      "previous_sibling": "slot_8_1587234786874"
-    },
-    {
-      "type": "slot",
-      "output": {},
-      "parent": "node_6_1587231194206",
-      "variable": "$doencas_usuario",
-      "dialog_node": "slot_9_1587266854874",
-      "previous_sibling": "slot_4_1587266182328"
-    },
-    {
-      "type": "slot",
-      "parent": "node_6_1587231194206",
-      "dialog_node": "slot_4_1587325471189",
-      "previous_sibling": "slot_1_1587267554246"
-    },
-    {
-      "type": "slot",
-      "output": {},
-      "parent": "node_6_1587231194206",
-      "variable": "$sintomas_tempo",
-      "dialog_node": "slot_8_1587234786874",
-      "previous_sibling": "slot_3_1587231265425"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "text": {
-          "values": [
-            "Seu caso pode ser considerado um caso suspeito ou de risco. Entre neste link para acessar as unidades de referência mais próximas da sua residência."
-          ],
-          "selection_policy": "sequential"
-        }
-      },
-      "parent": "node_6_1587231194206",
-      "conditions": "$doencas_usuario:sim && $status_saude:sim",
-      "dialog_node": "response_9_1587319466862",
-      "previous_sibling": "response_3_1587318424484"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "text": {
-          "values": [
-            "Você deve procurar ajuda imediatamente. Por favor, ligue para 192 se estiver impossibilitado de se dirigir a sua unidade de referência mais próxima."
-          ],
-          "selection_policy": "sequential"
-        }
-      },
-      "parent": "node_6_1587231194206",
-      "conditions": "$sintomas_graves:sim",
-      "dialog_node": "response_4_1587319272922"
+      "parent": "node_7_1587329396524",
+      "disabled": true,
+      "dialog_node": "response_8_1587331662116"
     },
     {
       "type": "event_handler",
@@ -379,7 +268,7 @@
       "output": {
         "generic": [
           {
-            "title": "Você apresentou esses outros sintomas recentemente? ",
+            "title": "Você possui alguma(s) dessa(s) doença(s)? ",
             "options": [
               {
                 "label": "Sim",
@@ -398,26 +287,26 @@
                 }
               }
             ],
-            "description": "  -Boca ou pontas dos dedos roxa,  Palidez, Respiração muito rápida, Pressão baixa, Sensação de desmaio",
+            "description": " - Diabetes;  - Doença Respiratória Crônica (ex. asma, DPOC, etc.)  - Doença Renal Crônica;  - Doenças cardíacas;  - Hipertensão;",
             "response_type": "option"
           }
         ]
       },
-      "parent": "slot_1_1587267554246",
+      "parent": "slot_9_1587266854874",
       "event_name": "focus",
-      "dialog_node": "handler_4_1587267554251",
-      "previous_sibling": "handler_5_1587267554251"
+      "dialog_node": "handler_5_1587266854878",
+      "previous_sibling": "handler_4_1587266854878"
     },
     {
       "type": "event_handler",
       "output": {},
-      "parent": "slot_1_1587267554246",
+      "parent": "slot_9_1587266854874",
       "context": {
-        "sintomas_graves": "@sim_nao"
+        "doencas_usuario": "@sim_nao"
       },
       "conditions": "@sim_nao",
       "event_name": "input",
-      "dialog_node": "handler_5_1587267554251"
+      "dialog_node": "handler_4_1587266854878"
     },
     {
       "type": "event_handler",
@@ -465,6 +354,437 @@
       "dialog_node": "handler_2_1587231265432"
     },
     {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "title": "Você apresentou esses outros sintomas recentemente? ",
+            "options": [
+              {
+                "label": "Sim",
+                "value": {
+                  "input": {
+                    "text": "sim"
+                  }
+                }
+              },
+              {
+                "label": "Não",
+                "value": {
+                  "input": {
+                    "text": "nao"
+                  }
+                }
+              }
+            ],
+            "description": "  -Boca ou pontas dos dedos roxa,  Palidez, Respiração muito rápida, Pressão baixa, Sensação de desmaio",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "slot_1_1587267554246",
+      "event_name": "focus",
+      "dialog_node": "handler_4_1587267554251",
+      "previous_sibling": "handler_5_1587267554251"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_1_1587267554246",
+      "context": {
+        "sintomas_graves": "@sim_nao"
+      },
+      "conditions": "@sim_nao",
+      "event_name": "input",
+      "dialog_node": "handler_5_1587267554251"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_6_1587231194206",
+      "variable": "$idade_usuario",
+      "dialog_node": "slot_4_1587266182328",
+      "previous_sibling": "slot_8_1587234786874"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Seu caso pode ser considerado um caso suspeito ou de risco. Entre neste link para acessar as unidades de referência mais próximas da sua residência."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de saber como posso me prevenir contra a COVID-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais "
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1587231194206",
+      "conditions": "$doencas_usuario:sim && $status_saude:sim",
+      "dialog_node": "response_9_1587319466862",
+      "previous_sibling": "response_3_1587318424484"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_6_1587231194206",
+      "variable": "$status_saude",
+      "conditions": "",
+      "dialog_node": "slot_3_1587231265425",
+      "previous_sibling": "response_4_1587324900877"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Seu caso pode ser de uma infecção respiratória indeterminada. Pela descrição, no entanto, recomenda-se quarentena de 14 dias, com acompanhamento diário dos sintomas para verificar se não há piora.  "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de saber como posso me prevenir contra a COVID-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais"
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1587231194206",
+      "conditions": "$status_saude:sim && $sintomas_tempo < 6",
+      "dialog_node": "response_2_1587319884901",
+      "previous_sibling": "response_9_1587319466862"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "É bem provável que você não esteja com a COVID-19. Legal! Agora é só continuar com as medidas de prevenção e seguir as recomendações dos profissionais de saúde que essa situação pode ser suavizada e resolvida o mais rápido possível. \n    Lave constantemente as mãos, cubra a boca com o cotovelo ao tossir ou espirrar, evite de tocar o rosto, mantenha a distância segura de 2 metros entre outras pessoas e evite ao máximo sair de casa. "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de saber como posso me prevenir contra a covid-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais "
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1587231194206",
+      "conditions": "$sintomas_tempo>15 || $status_saude:nao || $idade_usuario>18 && $doencas_usuario:nao && $sintomas_graves:nao",
+      "dialog_node": "response_4_1587324900877",
+      "previous_sibling": "response_2_1587319884901"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_6_1587231194206",
+      "variable": "$doencas_usuario",
+      "dialog_node": "slot_9_1587266854874",
+      "previous_sibling": "slot_4_1587266182328"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_6_1587231194206",
+      "variable": "$sintomas_graves",
+      "conditions": "$sintomas_tempo:sim",
+      "dialog_node": "slot_1_1587267554246",
+      "previous_sibling": "slot_9_1587266854874"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_6_1587231194206",
+      "variable": "$sintomas_tempo",
+      "conditions": "@sim_nao:sim",
+      "dialog_node": "slot_8_1587234786874",
+      "previous_sibling": "slot_3_1587231265425"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Seu caso pode ser considerado um caso suspeito ou de risco. Entre neste link para acessar as unidades de referência mais próximas da sua residência."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": " Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de saber como eu posso me prevenir contra a COVID-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais "
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1587231194206",
+      "conditions": "$idade_usuario>59 && $sintomas_usuario:sim && $sintomas_tempo<15",
+      "dialog_node": "response_3_1587318424484",
+      "previous_sibling": "response_4_1587319272922"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Você deve procurar ajuda imediatamente. Por favor, ligue para 192 se estiver impossibilitado de se dirigir a sua unidade de referência mais próxima."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de saber como posso me prevenir contra a COVID-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavirus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais"
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_6_1587231194206",
+      "conditions": "$sintomas_graves:sim",
+      "dialog_node": "response_4_1587319272922"
+    },
+    {
+      "type": "frame",
+      "title": "saude_usuario",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#saude_momento",
+      "dialog_node": "node_6_1587231194206",
+      "previous_sibling": "node_7_1587329396524",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "terminar conversa",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Tudo bem, então! Obrigado pelo contato e lembre sempre de se cuidar. O futuro está literalmente em nossas mãos. "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#terminar_conversa",
+      "dialog_node": "node_4_1587331707659",
+      "previous_sibling": "Bem-vindo"
+    },
+    {
+      "type": "standard",
+      "title": "Prevenção",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "As recomendações de prevenção à COVID-19 são as seguintes:\n\n     • Lave com frequência as mãos até a altura dos punhos, com água e sabão, ou então higienize com álcool em gel 70%.\n\n     • Ao tossir ou espirrar, cubra nariz e boca com lenço ou com o braço, e não com as mãos.\n\n     • Evite tocar olhos, nariz e boca com as mãos não lavadas.\n\n     • Ao tocar, lave sempre as mãos como já indicado.\n\n     • Mantenha uma distância mínima de cerca de 2 metros de qualquer pessoa tossindo ou espirrando.\n\n     • Evite abraços, beijos e apertos de mãos. Adote um comportamento amigável sem contato físico, mas sempre com um sorriso no rosto.\n\n     • Higienize com frequência o celular e os brinquedos das crianças.\n\n     • Não compartilhe objetos de uso pessoal, como talheres, toalhas, pratos e copos.\n\n     • Mantenha os ambientes limpos e bem ventilados.\n\n     • Evite circulação desnecessária nas ruas, estádios, teatros, shoppings, shows, cinemas e igrejas. Se puder, fique em casa.\n\n     • Se estiver doente, evite contato físico com outras pessoas, principalmente idosos e doentes crônicos, e fique em casa até melhorar.\n\n     • Durma bem e tenha uma alimentação saudável.\n\n     • Utilize máscaras caseiras ou artesanais feitas de tecido em situações de saída de sua residência. "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de avaliar meus sintomas",
+                "value": {
+                  "input": {
+                    "text": "avaliação da saúde"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais"
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
+      },
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "conditions": "#como_prevenir",
+      "dialog_node": "node_7_1587329396524",
+      "previous_sibling": "node_4_1587331707659"
+    },
+    {
       "type": "standard",
       "title": "Em outros casos",
       "output": {
@@ -488,21 +808,59 @@
       },
       "conditions": "anything_else",
       "dialog_node": "Em outros casos",
-      "previous_sibling": "node_6_1587231194206",
+      "previous_sibling": "node_7_1587329945585",
       "disambiguation_opt_out": true
     },
     {
-      "type": "frame",
-      "title": "saude_usuario",
-      "metadata": {
-        "_customization": {
-          "mcr": true
-        }
+      "type": "standard",
+      "title": "Coronavirus",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Coronavírus é uma família de vírus que causam infecções respiratórias. O novo agente do coronavírus foi descoberto em 31/12/19 após casos registrados na China. Provoca a doença chamada de coronavírus (COVID-19).\n\nOs primeiros coronavírus humanos foram isolados pela primeira vez em 1937. No entanto, foi em 1965 que o vírus foi descrito como coronavírus, em decorrência do perfil na microscopia, parecendo uma coroa.\n\nA maioria das pessoas se infecta com os coronavírus comuns ao longo da vida, sendo as crianças pequenas mais propensas a se infectarem com o tipo mais comum do vírus. Os coronavírus mais comuns que infectam humanos são o alpha coronavírus 229E e NL63 e beta coronavírus OC43, HKU1."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Há mais alguma coisa em que eu possa te ajudar?",
+            "options": [
+              {
+                "label": "Gostaria de avaliar meus sintomas",
+                "value": {
+                  "input": {
+                    "text": "avaliar a saúde"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de saber como posso me prevenir contra a COVID-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Não, já sei tudo o que precisava. Obrigado!",
+                "value": {
+                  "input": {
+                    "text": "nada mais "
+                  }
+                }
+              }
+            ],
+            "description": "Por favor, selecione uma das opções:",
+            "response_type": "option"
+          }
+        ]
       },
-      "conditions": "#saude_momento",
-      "dialog_node": "node_6_1587231194206",
-      "previous_sibling": "Bem-vindo",
-      "disambiguation_opt_out": true
+      "conditions": "#coronavirus",
+      "dialog_node": "node_7_1587329945585",
+      "previous_sibling": "node_6_1587231194206"
     },
     {
       "type": "standard",
@@ -517,6 +875,22 @@
                 "value": {
                   "input": {
                     "text": "avaliação da saúde"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de saber como posso me prevenir contra a COVID-19",
+                "value": {
+                  "input": {
+                    "text": "como se prevenir"
+                  }
+                }
+              },
+              {
+                "label": "Gostaria de informações sobre o que são coronavírus",
+                "value": {
+                  "input": {
+                    "text": "coronavirus"
                   }
                 }
               }

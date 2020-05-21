@@ -1,0 +1,480 @@
+{
+  "intents": [
+    {
+      "intent": "prevencao",
+      "examples": [
+        {
+          "text": "Como me prevenir"
+        },
+        {
+          "text": "Quais as formas de prevenção"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "bem",
+      "examples": [
+        {
+          "text": "Estou bem"
+        },
+        {
+          "text": "Estou saudável"
+        },
+        {
+          "text": "Me sinto bem"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "oq_coronavirus",
+      "examples": [
+        {
+          "text": "O que é corona virus"
+        },
+        {
+          "text": "O que é coronavirus"
+        },
+        {
+          "text": "O que são coronavírus"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "mal",
+      "examples": [
+        {
+          "text": "me sinto mal"
+        },
+        {
+          "text": "Estou mal"
+        },
+        {
+          "text": "mal"
+        },
+        {
+          "text": "mais ou menos"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "transmissao",
+      "examples": [
+        {
+          "text": "Formas de transmissão do covid"
+        },
+        {
+          "text": "Formas de transmissao"
+        },
+        {
+          "text": "Como se transmite o coronavírus"
+        },
+        {
+          "text": "Como é transmitido o coronavirus"
+        },
+        {
+          "text": "Formas de transmissão do corona"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "sintomas",
+      "examples": [
+        {
+          "text": "Quais os sintomas"
+        },
+        {
+          "text": "Sintomas do coronavirus"
+        },
+        {
+          "text": "Sintomas do covid"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "oque_covid",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "O que são coronavírus",
+          "synonyms": [
+            "o que é coronavirus",
+            "o q é coronavirus",
+            "o que é coronavírus",
+            "o q é coronavírus",
+            "o que é covid-19",
+            "o q é covid"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "prevencao",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Prevenção",
+          "synonyms": [
+            "prevenir",
+            "como prevenir",
+            "prevencao",
+            "prevenção"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "transmissao",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Transmissão",
+          "synonyms": [
+            "transmitido",
+            "transmite",
+            "transmitir"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sintomas",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Sintomas",
+          "synonyms": [
+            "sintomas",
+            "simtomas",
+            "sinto"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Mais ou menos/Mal",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Nossa, espero que você melhore! Dê uma olhada nos sintomas do COVID-19 e veja se você está com algum deles:\n\nDor de cabeça\nFadiga/Dor no corpo\nTosse\nFebre \nCoriza \nDor de garganta\nDificuldade para respirar\n\nLembre-se, caso apresente febre, falta de ar e tosse, procure um especialista."
+              },
+              {
+                "text": "Poxa...espero que fique tudo bem! ;)\nDê uma olhada nos sintomas do COVID-19 e veja se você está com algum deles:\n\nDor de cabeça\nFadiga/Dor no corpo\nTosse\nFebre \nCoriza \nDor de garganta\nDificuldade para respirar\n\nLembre-se, caso apresente febre, falta de ar e tosse, procure um especialista."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          },
+          {
+            "values": [
+              {
+                "text": "Você tem alguma outra dúvida sobre o coronavírus?"
+              },
+              {
+                "text": "Posso te ajudar com mais alguma coisa?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "Bem-vindo",
+      "conditions": "#mal",
+      "dialog_node": "node_7_1587481492357",
+      "previous_sibling": "node_2_1587481021788"
+    },
+    {
+      "type": "standard",
+      "title": "Bem",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Ótimo! :) tem algo que você deseja saber sobre o COVID-19?"
+              },
+              {
+                "text": "Fico feliz em saber disto ;)\nVocê tem alguma dúvida sobre o coronavírus?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "Bem-vindo",
+      "conditions": "#bem",
+      "dialog_node": "node_2_1587481021788"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Me desculpe, não entendi o que você deseja saber..."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "slot_2_1587480917307",
+      "event_name": "focus",
+      "dialog_node": "handler_8_1587480917335",
+      "previous_sibling": "handler_5_1587480917335"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_2_1587480917307",
+      "context": {
+        "transmissao": "@transmissao"
+      },
+      "conditions": "@transmissao",
+      "event_name": "input",
+      "dialog_node": "handler_5_1587480917335"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Me desculpe, não entendi o que você deseja saber..."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "slot_5_1587480675190",
+      "event_name": "focus",
+      "dialog_node": "handler_2_1587480675202",
+      "previous_sibling": "handler_1_1587480675202"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_5_1587480675190",
+      "context": {
+        "prevencao": "@prevencao"
+      },
+      "conditions": "@prevencao",
+      "event_name": "input",
+      "dialog_node": "handler_1_1587480675202"
+    },
+    {
+      "type": "slot",
+      "parent": "node_5_1587480829815",
+      "variable": "$sintomas",
+      "dialog_node": "slot_10_1587480847902"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Me desculpe, não entendi o que você deseja saber..."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "slot_10_1587480847902",
+      "event_name": "focus",
+      "dialog_node": "handler_1_1587480847915",
+      "previous_sibling": "handler_7_1587480847915"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1587480847902",
+      "context": {
+        "sintomas": "@sintomas"
+      },
+      "conditions": "@sintomas",
+      "event_name": "input",
+      "dialog_node": "handler_7_1587480847915"
+    },
+    {
+      "type": "slot",
+      "parent": "node_10_1587480599600",
+      "variable": "$prevencao",
+      "dialog_node": "slot_5_1587480675190"
+    },
+    {
+      "type": "slot",
+      "parent": "node_9_1587480897482",
+      "variable": "$transmissao",
+      "dialog_node": "slot_2_1587480917307"
+    },
+    {
+      "type": "standard",
+      "title": "O que são Coronavírus",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Coronavírus é uma família de vírus que causam infecções respiratórias. O novo agente do coronavírus foi descoberto em 31/12/19 após casos registrados na China. Provoca a doença chamada de coronavírus (COVID-19).\n\nOs primeiros coronavírus humanos foram isolados pela primeira vez em 1937. No entanto, foi em 1965 que o vírus foi descrito como coronavírus, em decorrência do perfil na microscopia, parecendo uma coroa.\n\nA maioria das pessoas se infecta com os coronavírus comuns ao longo da vida, sendo as crianças pequenas mais propensas a se infectarem com o tipo mais comum do vírus. Os coronavírus mais comuns que infectam humanos são o alpha coronavírus 229E e NL63 e beta coronavírus OC43, HKU1.\n\nA COVID-19 é uma doença causada pelo coronavírus SARS-CoV-2, que apresenta um quadro clínico que varia de infecções assintomáticas a quadros respiratórios graves. De acordo com a Organização Mundial de Saúde (OMS), a maioria dos pacientes com COVID-19 (cerca de 80%) podem ser assintomáticos e cerca de 20% dos casos podem requerer atendimento hospitalar por apresentarem dificuldade respiratória e desses casos aproximadamente 5% podem necessitar de suporte para o tratamento de insuficiência respiratória (suporte ventilatório)."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#oq_coronavirus",
+      "dialog_node": "node_4_1587480398795",
+      "previous_sibling": "Bem-vindo"
+    },
+    {
+      "type": "frame",
+      "title": "Transmissão",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "A transmissão acontece de uma pessoa doente para outra ou por contato próximo por meio de: \n• Toque do aperto de mão;\n• Gotículas de saliva;\n• Espirro;\n• Tosse;\n• Catarro;\n• Objetos ou superfícies contaminadas, como celulares, mesas, maçanetas, brinquedos, teclados de computador etc."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#transmissao",
+      "dialog_node": "node_9_1587480897482",
+      "previous_sibling": "node_5_1587480829815"
+    },
+    {
+      "type": "frame",
+      "title": "Prevenção",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "As recomendações de prevenção à COVID-19 são as seguintes:\n\n1. Lave com frequência as mãos até a altura dos punhos, com água e sabão, ou então higienize com álcool em gel 70%.\n2. Ao tossir ou espirrar, cubra nariz e boca com lenço ou com o braço, e não com as mãos.\n3. Evite tocar olhos, nariz e boca com as mãos não lavadas. Ao tocar, lave sempre as mãos como já indicado.\n4. Mantenha uma distância mínima de cerca de 2 metros de qualquer pessoa tossindo ou espirrando.\n5. Evite abraços, beijos e apertos de mãos. Adote um comportamento amigável sem contato físico, mas sempre com um sorriso no rosto.\n6. Higienize com frequência o celular e os brinquedos das crianças.\n7. Não compartilhe objetos de uso pessoal, como talheres, toalhas, pratos e copos.\n8. Mantenha os ambientes limpos e bem ventilados.\n9. Evite circulação desnecessária nas ruas, estádios, teatros, shoppings, shows, cinemas e igrejas. Se puder, fique em casa.\n10. Se estiver doente, evite contato físico com outras pessoas, principalmente idosos e doentes crônicos, e fique em casa até melhorar.\n11. Durma bem e tenha uma alimentação saudável.\n12. Utilize máscaras caseiras ou artesanais feitas de tecido em situações de saída de sua residência."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#prevencao",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_10_1587480599600",
+      "previous_sibling": "node_4_1587480398795"
+    },
+    {
+      "type": "frame",
+      "title": "Sintomas",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Os sintomas da COVID-19 podem variar de um simples resfriado até uma pneumonia severa. Sendo os sintomas mais comuns:\n\nDor de cabeça\nFadiga/Dor no corpo\nTosse\nFebre \nCoriza \nDor de garganta\nDificuldade para respirar\n\nSe você apresenta febre, falta de ar e tosse, procure um especialista."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#sintomas",
+      "dialog_node": "node_5_1587480829815",
+      "previous_sibling": "node_10_1587480599600"
+    },
+    {
+      "type": "standard",
+      "title": "Em outros casos",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Desculpe, não sei se posso te ajudar com isso..."
+              },
+              {
+                "text": "Opa, não entendi o que você quer dizer, consegue me explicar de outra forma?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Em outros casos",
+      "previous_sibling": "node_9_1587480897482",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "Bem-vindo",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Olá! Como está sua saúde no momento?"
+              },
+              {
+                "text": "Bem vindo! Como você se sente?"
+              },
+              {
+                "text": "Bem vindo! Como está sua saúde no momento?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bem-vindo"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Você quis dizer:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Nenhuma das anteriores"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Você quis dizer:"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "Auxiliar dúvidas COVID-19",
+  "language": "pt-br",
+  "description": ""
+}

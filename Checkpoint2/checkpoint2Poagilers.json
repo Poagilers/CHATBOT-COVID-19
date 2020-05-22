@@ -440,7 +440,7 @@
                 "text": "Como você está se sentido?"
               },
               {
-                "text": "Como vai? Está se sentindo como?"
+                "text": "Está se sentindo como?"
               }
             ],
             "response_type": "text",
@@ -448,6 +448,7 @@
           }
         ]
       },
+      "conditions": "#estado_saude",
       "dialog_node": "node_6_1590071807447",
       "previous_sibling": "Bem-vindo"
     },

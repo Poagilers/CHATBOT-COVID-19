@@ -457,7 +457,7 @@
       "output": {
         "generic": [
           {
-            "title": "Desculpe, não consegui entender. Deixa eu tentar ajudar, segundo as opções abaixo",
+            "title": "Desculpe, não consegui entender. Deixa eu tentar ajudar, vou listar algumas opções pra facilitar:",
             "options": [
               {
                 "label": "Quais são os sintomas da covid-19",
@@ -488,6 +488,14 @@
                 "value": {
                   "input": {
                     "text": "o que é coronavirus"
+                  }
+                }
+              },
+              {
+                "label": "Já sei tudo o que preciso, obrigado!",
+                "value": {
+                  "input": {
+                    "text": "quero sair"
                   }
                 }
               }
